@@ -1,0 +1,13 @@
+# Directories
+.vs/
+Debug/
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Files
+*.user
+*.filters
+*.vcxproj
