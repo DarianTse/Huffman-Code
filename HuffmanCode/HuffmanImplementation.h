@@ -1,23 +1,46 @@
 #pragma once
 
-#include <unordered_map>;
+#include <unordered_map>
+#include <string>
+
+using namespace std;
 
 struct HuffmanNode;
+class HuffmanMinHeap;
+
+extern string encodedFileDir;
+extern string encodedOutputFileName;
+
+extern string decodedFileDir;
+extern string decodedOutputFileName;
+
+extern string originalFileDir;
 
 class HuffmanImplementation
 {
 public:
-	HuffmanImplementation();
+	HuffmanImplementation(string action, string inputFilePath);
 
-	void BuildTree(char data[], int freq[], unsigned int size);
-	void GenerateCodes(HuffmanNode* node, std::string code);
+private: 
+	HuffmanMinHeap* GenerateMinHeapFromInputData();
+	void EncodeFile();
+	void DecodeFile();
 
+	void BuildTree();
+	void GenerateCodes(HuffmanNode* node, string code);
 	void PrintCodes();
 
+	int BinaryToDecimal(string n);
+	string DecimalToBinary(int n);
+
 private:
-	typedef std::unordered_map<char, std::string> huffmanCodeMap;
+	typedef unordered_map<char, string> huffmanCodeMap;
 	huffmanCodeMap m_codeMap; //Store our codes
 
-	HuffmanNode* m_root; //Root node of huffman tree
-};
+	typedef unordered_map<string, char> huffmanDecodeMap;
+	huffmanDecodeMap m_decodeMap;
 
+	HuffmanNode* m_root; //Root node of huffman tree
+
+	string m_inputFilePath;
+};

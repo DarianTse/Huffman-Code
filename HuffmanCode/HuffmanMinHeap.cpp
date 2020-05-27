@@ -1,8 +1,6 @@
 #include "HuffmanMinHeap.h"
 
-#include <iostream>
-#include <cstdlib>
-#include <utility>
+
 
 HuffmanMinHeap::HuffmanMinHeap(unsigned int capacity)
 	: m_size(0), m_capacity(capacity)

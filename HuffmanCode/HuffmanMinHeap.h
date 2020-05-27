@@ -1,5 +1,9 @@
 #pragma once
 
+#include <iostream>
+#include <cstdlib>
+#include <utility>
+
 struct HuffmanNode
 {
 	char m_data;
@@ -25,7 +29,7 @@ public:
 	void PrintNodes();
 
 private: 
-	unsigned int m_size;
+	unsigned int m_size; 
 	unsigned int m_capacity;
 	HuffmanNode** m_array;
 };
