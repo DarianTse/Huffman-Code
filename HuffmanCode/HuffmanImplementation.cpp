@@ -176,11 +176,14 @@ void HuffmanImplementation::DecodeFile()
 		stream += DecimalToBinary(c);
 	}
 
-	//last char (8bits) are the end padding size
-	char endPaddingSize = (char)BinaryToDecimal(stream.substr(stream.size() - 8, 8));
-	stream = stream.substr(0, stream.size() - 8);
+	//last char (8bits) are the end padding size *** NOTE -> this is wrong and I'm dumb
+	//BinaryToDecimal function pads up to 6 bits - so we actually lose 2 bits of data. 
+	//This isn't a problem since the decimal number stored is 5 or less, meaning we really only need 3 bits.
+	//Instead of stripping off the last 8 bits - we should be stripping off the last 6 + the end padding
+	//Todo : probably implement a more elegant solution
+	char endPaddingSize = (char)BinaryToDecimal(stream.substr(stream.size() - 6));
+	stream = stream.substr(0, stream.size() - (6 + endPaddingSize));
 
-	//convert stream of bits into original data based on huffman codes
 	auto min = [](int a, int b)
 	{
 		return a > b ? b : a;
@@ -192,6 +195,7 @@ void HuffmanImplementation::DecodeFile()
 		smallestCodeSize = min(smallestCodeSize, uniqueEntry.first.size());
 	}
 
+	//convert stream of bits into original data based on huffman codes
 	huffmanDecodeMap::iterator it;
 	string code = "";
 	string output = "";
@@ -276,6 +280,7 @@ int HuffmanImplementation::BinaryToDecimal(string n)
 	return i;
 }
 
+//Padding only up to 6 bits
 string HuffmanImplementation::DecimalToBinary(int n)
 {
 	auto swap = [](char& a, char& b)
